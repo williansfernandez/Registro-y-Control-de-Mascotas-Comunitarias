@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Mascotas Comunitarias</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fefefe;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #ff6f61;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #e65a50;
+    }
+
+    .mascota {
+      background: white;
+      margin: 20px auto;
+      max-width: 600px;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mascota img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 Registro de Mascotas Comunitarias 🐾</h1>
+    <p>Ayudemos a nuestras mascotas a encontrar un hogar</p>
+  </header>
+
+  <form id="formularioMascota">
+    <input type="text" id="nombre" placeholder="Nombre de la mascota" required />
+    <input type="text" id="ubicacion" placeholder="Ubicación aproximada" required />
+    <textarea id="cuidados" placeholder="Cuidados básicos" required></textarea>
+    <input type="file" id="foto" accept="image/*" />
+    <button type="submit">Registrar</button>
+  </form>
+
+  <h2>Mascotas Registradas</h2>
+  <div id="listaMascotas"></div>
+
+  <script>
+    const formulario = document.getElementById('formularioMascota');
+    const lista = document.getElementById('listaMascotas');
+
+    formulario.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value;
+      const ubicacion = document.getElementById('ubicacion').value;
+      const cuidados = document.getElementById('cuidados').value;
+      const fotoInput = document.getElementById('foto');
+      const file = fotoInput.files[0];
+
+      const mascotaDiv = document.createElement('div');
+      mascotaDiv.className = 'mascota';
+      mascotaDiv.innerHTML = `
+        <h3>${nombre}</h3>
+        <p><strong>Ubicación:</strong> ${ubicacion}</p>
+        <p><strong>Cuidados:</strong> ${cuidados}</p>
+      `;
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = document.createElement('img');
+          img.src = event.target.result;
+          mascotaDiv.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      lista.appendChild(mascotaDiv);
+      formulario.reset();
+    });
+  </script>
+</body>
+</html>
